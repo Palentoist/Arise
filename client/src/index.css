@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgba(14, 165, 233, 0.5), 0 0 10px rgba(14, 165, 233, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.8), 0 0 20px rgba(14, 165, 233, 0.5);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes border-glow {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes levelUp {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+:root {
+  --background: 215 23% 7%;
+  --foreground: 0 0% 100%;
+  --card: 217 19% 14%;
+  --card-foreground: 0 0% 100%;
+  --popover: 217 19% 14%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 199 90% 48%;
+  --primary-foreground: 211 100% 99%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 217 19% 27%;
+  --input: 214 32% 91%;
+  --ring: 199 90% 48%;
+  --sidebar-background: 217 19% 14%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-primary: 199 90% 48%;
+  --sidebar-primary-foreground: 211 100% 99%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 0 0% 98%;
+  --sidebar-border: 217 19% 27%;
+  --sidebar-ring: 199 90% 48%;
+  --chart-1: 199 90% 48%;
+  --chart-2: 210 100% 65%;
+  --chart-3: 262 83% 58%;
+  --chart-4: 47 95% 57%;
+  --chart-5: 345 83% 56%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    background-image: 
+      radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.05) 0%, transparent 20%),
+      radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.05) 0%, transparent 20%);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .animate-pulse-slow {
+    animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .glow-text {
+    text-shadow: 0 0 8px rgba(14, 165, 233, 0.8);
+  }
+  
+  .stats-bar {
+    @apply h-2 bg-black/30 overflow-hidden rounded;
+  }
+  
+  .stats-fill {
+    @apply h-full rounded;
+    background: linear-gradient(90deg, #0EA5E9, #38BDF8);
+    box-shadow: 0 0 8px rgba(14, 165, 233, 0.8);
+    position: relative;
+  }
+  
+  .stats-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transform: translateX(-100%);
+    animation: shimmer 2s infinite;
+  }
+  
+  .quest-card {
+    @apply transition-all duration-300 border border-border;
+  }
+  
+  .quest-card:hover {
+    @apply -translate-y-0.5;
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.3);
+    border-color: rgba(14, 165, 233, 0.5);
+  }
+  
+  .system-border {
+    @apply relative border border-border overflow-hidden;
+  }
+  
+  .system-border::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    background: linear-gradient(90deg, transparent, rgba(14, 165, 233, 0.5), transparent) border-box;
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) padding-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    animation: border-glow 3s linear infinite;
+  }
+  
+  .level-badge {
+    @apply relative;
+  }
+  
+  .level-badge::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 50%;
+    background: conic-gradient(#0EA5E9, transparent, transparent, transparent);
+    animation: rotate 4s linear infinite;
+    z-index: -1;
+  }
+  
+  .level-up {
+    animation: levelUp 0.8s ease-in-out;
+  }
+}
